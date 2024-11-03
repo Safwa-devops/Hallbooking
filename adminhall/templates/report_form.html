@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Report</title>
+</head>
+<body>
+    <h1>Generate Booking Report</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="hall">Select Hall:</label>
+        <select name="hall" id="hall" required>
+            <option value="hall1">Hall 1</option>
+            <option value="hall2">Hall 2</option>
+            <!-- Add more hall options as needed -->
+        </select><br><br>
+
+        <label for="date">Select Date:</label>
+        <input type="date" name="date" id="date" required><br><br>
+
+        <label for="report_type">Select Report Type:</label>
+        <select name="report_type" id="report_type" required>
+            <option value="upcoming">Upcoming</option>
+            <option value="past">Past</option>
+            <option value="all">All</option>
+        </select><br><br>
+
+        <button type="submit">Generate Report</button>
+    </form>
+</body>
+</html>

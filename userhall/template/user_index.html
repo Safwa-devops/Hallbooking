@@ -1,0 +1,511 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Untree.co">
+	<link rel="shortcut icon" href="favicon.png">
+
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap4" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap"
+		rel="stylesheet">
+
+	<link rel="stylesheet" href="{% static 'user_static/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/owl.theme.default.min.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/jquery.fancybox.min.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/fonts/icomoon/style.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/fonts/flaticon/font/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/daterangepicker.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/aos.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/style.css' %}">
+
+	<title>Hall Booking</title>
+	<style>
+		.banner {
+			background-image: url('https://res.cloudinary.com/simplotel/image/upload/w_5000,h_3312/x_0,y_250,w_5000,h_2812,r_0,c_crop,q_80,fl_progressive/w_900,f_auto,c_fit/jenneys-residency-coimbatore/fron_t_view_of_a_banquet_hall4_xl5gmo');
+			/* Replace with your image path */
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+			/* margin-top: 50px; */
+			height: 700px;
+			margin-top: 10px;
+			/* Adjust height as needed */
+			position: relative;
+			display: flex;
+			align-items: center;
+
+		}
+
+		.site-nav {
+			background-color: #6998ab;
+			/* Dark background with some transparency */
+			padding: 10px 0;
+			/* Adjust padding if necessary */
+			position: relative;
+			/* Ensure it's positioned correctly */
+			z-index: 1000;
+			/* To ensure it stays above the hero section */
+		}
+
+		.site-nav a {
+			color: white;
+			/* Ensure the links are visible with the dark background */
+		}
+
+		.site-nav .logo {
+			color: white;
+			/* Set logo text color */
+		}
+
+		.site-nav .site-menu li a {
+			color: white;
+			/* Ensure the menu items are white */
+		}
+
+		.site-nav .site-menu li a:hover {
+			color: #f8f9fa;
+			/* Lighter shade on hover */
+		}
+
+		.burger {
+			color: white;
+			/* Ensure the burger menu icon is visible */
+		}
+
+		.image-container {
+			width: 100%;
+			/* Full width of the parent */
+			padding-top: 56.25%;
+			/* This creates a 16:9 aspect ratio (standard for widescreen) */
+			position: relative;
+			overflow: hidden;
+			border-radius: 10px;
+			/* Rounded edges */
+			background-color: #f0f0f0;
+			/* Optional background color for better visibility */
+		}
+
+		.image-container img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			/* Ensures the image covers the container without distortion */
+			border-radius: 10px;
+			/* Ensures the image also has rounded edges */
+		}
+
+		.owl-carousel .item img {
+			width: 400px;
+			/* Fixed width */
+			height: 400px;
+			/* Fixed height */
+			object-fit: cover;
+			/* Ensures the image fits the container without distortion */
+			border-radius: 10px;
+			/* Optional: For rounded corners */
+		}
+	</style>
+</head>
+
+<body>
+
+
+	<div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+
+	<nav class="site-nav">
+		<div class="container">
+			<div class="site-navigation">
+				<a href="{% url 'index' %}" class="logo m-0">Hall Booking<span class="text-primary">.</span></a>
+
+				<ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+					<li class="active"><a href="{% url 'index' %}">Home</a></li>
+					<li><a href="{% url 'about' %}">About</a></li>
+					<li><a href="{% url 'contact' %}">Contact</a></li>
+				</ul>
+
+				<a href="#"
+					class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
+					data-toggle="collapse" data-target="#main-navbar">
+					<span></span>
+				</a>
+
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="hero banner">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="row mb-5 justify-content-center">
+					<div class="col-lg-8 text-center p-4"
+						style="background-color: rgba(255, 255, 255, 0.7); border-radius: 10px;">
+						<br><Br><br>
+						<h2 class="section-title text-center mb-3 text-dark display-4 font-weight-bold">
+							Our Services
+						</h2>
+						<p class="text-dark lead font-weight-bold">
+							Booking a venue for your special occasion has never been easier with us.&nbsp;&nbsp; We've
+							simplified the entire process, letting you find, customize, and reserve the perfect hall in
+							just a few clicks. Say goodbye to the hassle and focus on what really matters—making your
+							event unforgettable!
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="untree_co-section">
+		<div class="container">
+			<div class="row text-center justify-content-center mb-5">
+				<div class="col-lg-7">
+					<h2 class="section-title text-center">Hall Gallery</h2>
+				</div>
+			</div>
+
+			<div class="owl-carousel owl-3-slider">
+				{% for image in all_slideshow_images %}
+				<div class="item">
+					<a class="media-thumb" href="{{ image }}" data-fancybox="gallery">
+						<div class="media-text">
+							{% for entry in halls_with_images %}
+							{% if image in entry.images %}
+							<h3>{{ entry.hall.name }}</h3>
+							<span class="location">{{ entry.hall.place }}</span>
+							{% endif %}
+							{% endfor %}
+						</div>
+						<img src="{{ image }}" alt="Image" class="img-fluid">
+					</a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- <div class="untree_co-section">
+		<div class="container">
+			<div class="row text-center justify-content-center mb-5">
+				<div class="col-lg-7">
+					<h2 class="section-title text-center">Available Halls</h2>
+				</div>
+			</div>
+			<div class="row">
+				{% for entry in halls_with_images %}
+				<div class="col-6 col-sm-6 col-md-4 col-lg-4 mb-4"> 
+					<div class="media-1 mx-2"> 
+						<div class="image-container">
+							<a href="{% url 'hall_detail' entry.hall.id %}" class="d-block mb-3">
+								<img src="{{ entry.thumbnail }}" alt="{{ entry.hall.name }} Thumbnail"
+									class="img-fluid rounded">
+							</a>
+						</div><br>
+
+						<span class="d-flex align-items-center loc mb-2">
+							<span class="icon-room mr-3"></span>
+							<span><a href="https://maps.app.goo.gl/JcD4HZZK7T7SuPKE8">{{ entry.hall.place }}</a></span>
+						</span><br>
+						<div class="d-flex align-items-center">
+							<div>
+								<h3><a href="{% url 'hall_detail' entry.hall.id %}">
+										{{ entry.hall.name }}
+									</a></h3>
+								<div class="price ml-auto">
+									<br>
+									<span> Capacity: {{ entry.hall.capacity }}</span><br><br>
+									<span> A/C or Non A/C: {{ entry.hall.ac_nonac_both }}</span><br><br>
+									<span>
+										<button class="btn btn-info check-availability"
+											data-hall-id="{{ entry.hall.id }}">Check Availability</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div> -->
+
+	<div class="untree_co-section">
+		<div class="container">
+			<!-- Dropdown for filtering locations -->
+			<div class="row text-center justify-content-center mb-5">
+				<div class="col-lg-7">
+					<h2 class="section-title text-center">Available Halls</h2>
+
+					<!-- Location Dropdown -->
+					<select id="locationDropdown" class="form-control my-3">
+						<option value="all">All Locations</option>
+						{% for location in hall_locations %}
+						<option value="{{ location }}">{{ location }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<!-- Hall listings -->
+			<div class="row" id="hallListings">
+				{% for entry in halls_with_images %}
+				<div class="col-6 col-sm-6 col-md-4 col-lg-4 mb-4 hall-entry" data-location="{{ entry.hall.place }}">
+					<div class="media-1 mx-2">
+						<div class="image-container">
+							<a href="{% url 'hall_detail' entry.hall.id %}" class="d-block mb-3">
+								<img src="{{ entry.thumbnail }}" alt="{{ entry.hall.name }} Thumbnail"
+									class="img-fluid rounded">
+							</a>
+						</div><br>
+						<span class="d-flex align-items-center loc mb-2">
+							<span class="icon-room mr-3"></span>
+							<span><a href="https://maps.app.goo.gl/JcD4HZZK7T7SuPKE8">{{ entry.hall.place }}</a></span>
+						</span><br>
+						<div class="d-flex align-items-center">
+							<div>
+								<h3><a href="{% url 'hall_detail' entry.hall.id %}">{{ entry.hall.name }}</a></h3>
+								<div class="price ml-auto">
+									<br>
+									<span>Capacity: {{ entry.hall.capacity }}</span><br><br>
+									<span>A/C or Non A/C: {{ entry.hall.ac_nonac_both }}</span><br><br>
+									<span>
+										<button class="btn btn-info check-availability"
+											data-hall-id="{{ entry.hall.id }}">
+											Check Availability
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+	<div class="py-5 cta-section">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-md-12">
+					<h2 class="mb-2 text-white">Contact Us Now</h2>
+					<br>
+					<p class="mb-0"><a href="{% url 'contact' %}"
+							class="btn btn-outline-white text-white btn-md font-weight-bold">Get in
+							touch</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="site-footer">
+		<div class="inner first">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-lg-4">
+						<div class="widget">
+							<h3 class="heading">About Tour</h3>
+							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+								there live the blind texts.</p>
+						</div>
+						<div class="widget">
+							<ul class="list-unstyled social">
+								<li><a href="#"><span class="icon-twitter"></span></a></li>
+								<li><a href="#"><span class="icon-instagram"></span></a></li>
+								<li><a href="#"><span class="icon-facebook"></span></a></li>
+								<li><a href="#"><span class="icon-linkedin"></span></a></li>
+								<li><a href="#"><span class="icon-dribbble"></span></a></li>
+								<li><a href="#"><span class="icon-pinterest"></span></a></li>
+								<li><a href="#"><span class="icon-apple"></span></a></li>
+								<li><a href="#"><span class="icon-google"></span></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-2 pl-lg-5">
+						<div class="widget">
+							<h3 class="heading">Pages</h3>
+							<ul class="links list-unstyled">
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-2">
+						<div class="widget">
+							<h3 class="heading">Resources</h3>
+							<ul class="links list-unstyled">
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4">
+						<div class="widget">
+							<h3 class="heading">Contact</h3>
+							<ul class="list-unstyled quick-info links">
+								<li class="email"><a href="#">mail@example.com</a></li>
+								<li class="phone"><a href="#">+1 222 212 3819</a></li>
+								<li class="address"><a href="#">43 Raymouth Rd. Baltemoer, London 3910</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="inner dark">
+			<div class="container">
+				<div class="row text-center">
+					<div class="col-md-8 mb-3 mb-md-0 mx-auto">
+						<p>Copyright &copy;
+							<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash;
+							Designed by Tony </a>
+						</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="overlayer">
+		<div class="loader">
+			<div class="spinner-border" role="status">
+				<span class="sr-only">Loading...</span>
+			</div>
+		</div>
+	</div>
+
+	<script src="{% static 'user_static/js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'user_static/js/popper.min.js' %}"></script>
+	<script src="{% static 'user_static/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'user_static/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'user_static/s/jquery.animateNumber.min.js' %}"></script>
+	<script src="{% static 'user_static/js/jquery.waypoints.min.js' %}"></script>
+	<script src="{% static 'user_static/js/jquery.fancybox.min.js' %}"></script>
+	<script src="{% static 'user_static/js/aos.js' %}"></script>
+	<script src="{% static 'user_static/js/moment.min.js' %}"></script>
+	<script src="{% static 'user_static/js/daterangepicker.js' %}"></script>
+	<script src="{% static 'user_static/js/typed.js' %}"></script>
+
+
+
+	<script>
+
+		document.querySelectorAll('.check-availability').forEach(button => {
+			button.addEventListener('click', function () {
+				console.log("function");
+				const hallId = this.getAttribute('data-hall-id');
+				console.log(hallId);
+				fetch(`/fetch_bookings/${hallId}/`)
+					.then(response => response.json())
+					.then(data => {
+						console.log(data);
+
+						// Store bookings, inoperable dates, and availability in local storage before redirect
+						localStorage.setItem('bookings', JSON.stringify(data.bookings));
+						localStorage.setItem('inoperable', JSON.stringify(data.inoperable));
+						localStorage.setItem('availability', JSON.stringify(data.availability));
+
+						// Redirect to the calendar.html with the hall ID
+						window.location.href = "/user_calendar/" + hallId;
+					})
+					.catch(error => console.error('Error fetching bookings:', error));
+			});
+		});
+
+
+		document.querySelectorAll('.book').forEach(button => {
+			button.addEventListener('click', function () {
+				const hallId = this.getAttribute('data-hall-id');
+				console.log(hallId);
+				window.location.href = `/new/${hallId}/`;
+
+			});
+		});
+
+	</script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const locationDropdown = document.getElementById('locationDropdown');
+			const hallEntries = document.querySelectorAll('.hall-entry');
+
+			locationDropdown.addEventListener('change', function () {
+				const selectedLocation = this.value.toLowerCase();
+
+				hallEntries.forEach(hall => {
+					const hallLocation = hall.getAttribute('data-location').toLowerCase();
+
+					if (selectedLocation === 'all' || hallLocation === selectedLocation) {
+						hall.style.display = 'block'; // Show hall
+					} else {
+						hall.style.display = 'none'; // Hide hall
+					}
+				});
+			});
+		});
+
+	</script>
+
+	<script>
+		$(function () {
+			var slides = $('.slides'),
+				images = slides.find('img');
+
+			images.each(function (i) {
+				$(this).attr('data-id', i + 1);
+			})
+
+			var typed = new Typed('.typed-words', {
+				strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+				typeSpeed: 80,
+				backSpeed: 80,
+				backDelay: 4000,
+				startDelay: 1000,
+				loop: true,
+				showCursor: true,
+				preStringTyped: (arrayPos, self) => {
+					arrayPos++;
+					console.log(arrayPos);
+					$('.slides img').removeClass('active');
+					$('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+				}
+
+			});
+		})
+	</script>
+
+	<script src="{% static 'user_static/js/custom.js' %}"></script>
+
+</body>
+
+</html>

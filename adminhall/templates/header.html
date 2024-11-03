@@ -1,0 +1,72 @@
+{% load static %}
+{% block content %}
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+       
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a href="index.html" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>ADMIN</h3>
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="{% static 'admin_static/img/user.jpg' %}" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">Jhon Doe</h6>
+                        <span>Admin</span>
+                    </div>
+                </div>
+
+               
+                {% comment %} <a href="register"><button type="button" class="btn btn-outline-primary m-3">Admin Register</button></a> {% endcomment %}
+                <div class="navbar-nav w-100">
+                    <a href="{% url 'adminregister' %}"><button type="button" class="btn btn-outline-primary m-3">Admin Register</button></a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-square"></i>Hall</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'hallmanage' %}" class="dropdown-item">Add Hall</a>
+                            <a href="{% url 'viewhall' %}" class="dropdown-item">View Hall</a>
+                            {% comment %} <a href="element.html" class="dropdown-item">Other Elements</a> {% endcomment %}
+                        </div>
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-square-half"></i>Hall Facilities</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'featuremanage' %}" class="dropdown-item">Manage facilities</a>
+                        </div>
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-nut-fill"></i>Hall Inoperability</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'hallinoperabilitymanage' %}" class="dropdown-item">Manage Inoperability</a>
+                        </div>
+                    </div>
+                    
+                    {% if is_super_admin %}
+                    <a href="{% url 'member' %}" class="nav-item nav-link"><i class="bi bi-people"></i>Member List</a>
+                    {% endif %}
+                    
+                    <a href="{% url 'booked' %}" class="nav-item nav-link"><i class="bi bi-journal-text"></i>Booking List</a>
+                    {% comment %} <a href="calendarview" class="nav-item nav-link"><i class="bi bi-calendar-event-fill"></i>Calender View</a> {% endcomment %}
+                    <a href="{% url 'upcoming' %}" class="nav-item nav-link"><i class="bi bi-journal-arrow-up"></i>Upcoming Event</a>
+                    <a href="{% url 'history' %}"  class="nav-item nav-link"><i class="bi bi-hourglass-split"></i>Booking History</a>
+                  
+                   
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-journals"></i>Reports</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'report' %}" class="dropdown-item">Booking Report</a>
+                            <!-- <a href="{% url 'inoperability_report' %}" class="dropdown-item">Inoperability Report</a>
+                            <a href="element.html" class="dropdown-item">Payment Report</a> -->
+                        </div>
+                    </div>
+                    <a href="{% url 'logout' %}" class="nav-item nav-link"><i class="bi bi-box-arrow-left"></i>Logout</a>    
+                  
+{% endblock %}                   

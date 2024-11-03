@@ -1,0 +1,616 @@
+<!-- {% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>{{ hall.name }} - Hall Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'user_static/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/css/style.css' %}">
+
+    <style>
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            height: 150px;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.1);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-content {
+            max-width: 80%;
+            max-height: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 35px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            background-color: #f0f0f0;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Hall details text styling */
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        p {
+            color: #e0e0e0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Button styling */
+        button.check-availability {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button.check-availability:hover {
+            background-color: #004c99;
+        }
+
+        /* Features list styling */
+        .features-list li {
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 12px;
+            margin: 5px 0;
+            font-size: 1.1rem;
+            font-family: 'Source Serif Pro', serif;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="site-nav">
+        <div class="container">
+            <div class="site-navigation">
+                <a href="{% url 'index' %}" class="logo m-0">Rotary Club<span class="text-primary">.</span></a>
+                <ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+                <a href="#"
+                    class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
+                    <span></span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1>{{ hall.name }}</h1><br><br><br>
+                    <p style="color: white; font-size:large;"><strong>Description:</strong> {{ hall.description }}</p>
+                    <p style="color: white; font-size:large;"><strong>Location:</strong> {{ hall.place }}</p>
+                    <p style="color: white; font-size:large;"><strong>Capacity:</strong> {{ hall.capacity }}</p>
+                    <br><br><br>
+
+                    <h2>Images</h2><br><br>
+                    <div class="image-gallery">
+                        {% for image in images %}
+                        <div class="gallery-item">
+                            <img src="{{ image.image.url }}" alt="Image of {{ hall.name }}" class="gallery-image"
+                                onclick="openLightbox('{{ image.image.url }}')">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="lightbox" class="lightbox" style="display: none;">
+                        <span class="close" onclick="closeLightbox()">&times;</span>
+                        <img class="lightbox-content" id="lightbox-img">
+                    </div>
+                    <br><br>
+                    <h2>Features</h2><br><br>
+                    <ul class="features-list">
+                        {% for feature in features %}
+                        <li>{{ feature.featurename }}</li>
+                        {% endfor %}
+                    </ul>
+                    <br><br>
+                    <span>
+                        <button class="btn btn-info check-availability" data-hall-id="{{ hall.id }}">Check
+                            Availability</button>
+                    </span>
+                </div>
+
+                <div class="col-6 col-sm-6 col-lg-4 feature-1-wrap d-md-flex flex-md-column order-lg-3">
+                    <h4 style="color: antiquewhite;">Map</h4>
+                    <div class="feature-1 d-md-flex">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.80333807248!2d76.16928807404476!3d10.277423989842607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b081e7dd2a0ff75%3A0x2e7056bb7171d9e0!2sCluster%20Innovation%20Hub%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1728361977032!5m2!1sen!2sin"
+                            width="400" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-footer">
+        <div class="inner first">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="widget">
+                            <h3 class="heading">About Tour</h3>
+                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+                                there live the blind texts.</p>
+                        </div>
+                        <div class="widget">
+                            <ul class="list-unstyled social">
+                                <li><a href="#"><span class="icon-twitter"></span></a></li>
+                                <li><a href="#"><span class="icon-instagram"></span></a></li>
+                                <li><a href="#"><span class="icon-facebook"></span></a></li>
+                                <li><a href="#"><span class="icon-linkedin"></span></a></li>
+                                <li><a href="#"><span class="icon-dribbble"></span></a></li>
+                                <li><a href="#"><span class="icon-pinterest"></span></a></li>
+                                <li><a href="#"><span class="icon-apple"></span></a></li>
+                                <li><a href="#"><span class="icon-google"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-2 pl-lg-5">
+                        <div class="widget">
+                            <h3 class="heading">Pages</h3>
+                            <ul class="links list-unstyled">
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="widget">
+                            <h3 class="heading">Contact</h3>
+                            <ul class="list-unstyled quick-info links">
+                                <li class="email"><a href="#">mail@example.com</a></li>
+                                <li class="phone"><a href="#">+1 222 212 3819</a></li>
+                                <li class="address"><a href="#">43 Raymouth Rd. Baltemoer, London 3910</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-md-12 text-center">
+                        <p class="copyright">
+                            <small>&copy; 2024 Your Company. All rights reserved.</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        document.querySelectorAll('.check-availability').forEach(button => {
+            button.addEventListener('click', function () {
+                const hallId = this.getAttribute('data-hall-id');
+                fetch(`/fetch_bookings/${hallId}/`)
+                    .then(response => response.json())
+                    .then(bookedEvents => {
+                        // Store bookings in local storage before redirect
+                        localStorage.setItem('bookings', JSON.stringify(bookedEvents));
+
+                        // Redirect to calendar.html
+                        window.location.href = `/user_calendar/${hallId}`;
+                    })
+                    .catch(error => console.error('Error fetching bookings:', error));
+            });
+        });
+
+    </script>
+    <script>
+        function openLightbox(imageUrl) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = imageUrl;
+            lightbox.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+        }
+
+        // Close the lightbox when clicking outside the image
+        document.getElementById('lightbox').addEventListener('click', (event) => {
+            if (event.target === event.currentTarget) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+
+</html> -->
+
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>{{ hall.name }} - Hall Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'user_static/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'user_static/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/owl.theme.default.min.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/jquery.fancybox.min.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/fonts/icomoon/style.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/fonts/flaticon/font/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/daterangepicker.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/aos.css' %}">
+	<link rel="stylesheet" href="{% static 'user_static/css/style.css' %}">
+
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background for a fresh look */
+        }
+
+        .hero {
+            background-color: #6998ab; /* Active blue background */
+            color: white;
+            padding: 40px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.05);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            max-width: 80%;
+            max-height: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 35px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            background-color: #f0f0f0;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Button styling */
+        button.check-availability {
+            background-color: #28a745; /* Green button */
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button.check-availability:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="site-nav">
+        <div class="container">
+            <div class="site-navigation">
+                <a href="{% url 'index' %}" class="logo m-0">Rotary Club<span class="text-primary">.</span></a>
+                <ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+                <a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
+                    <span></span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="hero">
+        <div class="container">
+            <br><br><br><br><br><br>
+            <h1>{{ hall.name }}</h1><br><br><br>
+            <p><strong>Description:</strong> {{ hall.description }}</p>
+            <p><strong>Location:</strong> {{ hall.place }}</p>
+            <p><strong>Capacity:</strong> {{ hall.capacity }}</p>
+            
+            {% if rent_info.type == 'Both A/C and Non A/C' %}
+                <p><strong>A/C Rent:</strong> {{ rent_info.ac_rent }}</p>
+                <p><strong>Non-A/C Rent:</strong> {{ rent_info.non_ac_rent }}</p>
+            {% else %}
+                <p><strong>{{ rent_info.type }} Rent:</strong> {{ rent_info.rent }}</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <br><br><br>
+    <div class="container">
+        <h2>Images</h2>
+        <div class="image-gallery">
+            {% for image in images %}
+            <div class="gallery-item">
+                <img src="{{ image.image.url }}" alt="Image of {{ hall.name }}" class="gallery-image" onclick="openLightbox('{{ image.image.url }}')">
+            </div>
+            {% endfor %}
+        </div>
+        <br><br><br>
+        <div id="lightbox" class="lightbox" style="display: none;">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+        </div>
+
+        <h2>Features</h2>
+        <ul class="features-list">
+            {% for feature in features %}
+            <li>{{ feature.featurename }}</li>
+            {% endfor %}
+        </ul>
+        <br><br><br>
+        <button class="btn btn-info check-availability" data-hall-id="{{ hall.id }}">Check Availability</button>
+        <br><br><br><br><br><br>
+        <h2>Map</h2>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.80333807248!2d76.16928807404476!3d10.277423989842607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b081e7dd2a0ff75%3A0x2e7056bb7171d9e0!2sCluster%20Innovation%20Hub%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1728361977032!5m2!1sen!2sin"
+                width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+    <br><br><br>
+    
+    
+    <div class="site-footer">
+		<div class="inner first">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-lg-4">
+						<div class="widget">
+							<h3 class="heading">About Tour</h3>
+							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+								there live the blind texts.</p>
+						</div>
+						<div class="widget">
+							<ul class="list-unstyled social">
+								<li><a href="#"><span class="icon-twitter"></span></a></li>
+								<li><a href="#"><span class="icon-instagram"></span></a></li>
+								<li><a href="#"><span class="icon-facebook"></span></a></li>
+								<li><a href="#"><span class="icon-linkedin"></span></a></li>
+								<li><a href="#"><span class="icon-dribbble"></span></a></li>
+								<li><a href="#"><span class="icon-pinterest"></span></a></li>
+								<li><a href="#"><span class="icon-apple"></span></a></li>
+								<li><a href="#"><span class="icon-google"></span></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-2 pl-lg-5">
+						<div class="widget">
+							<h3 class="heading">Pages</h3>
+							<ul class="links list-unstyled">
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-2">
+						<div class="widget">
+							<h3 class="heading">Resources</h3>
+							<ul class="links list-unstyled">
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4">
+						<div class="widget">
+							<h3 class="heading">Contact</h3>
+							<ul class="list-unstyled quick-info links">
+								<li class="email"><a href="#">mail@example.com</a></li>
+								<li class="phone"><a href="#">+1 222 212 3819</a></li>
+								<li class="address"><a href="#">43 Raymouth Rd. Baltemoer, London 3910</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="inner dark">
+			<div class="container">
+				<div class="row text-center">
+					<div class="col-md-8 mb-3 mb-md-0 mx-auto">
+						<p>Copyright &copy;
+							<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash;
+							Designed by Tony </a>
+						</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <script src="{% static 'user_static/js/jquery.min.js' %}"></script>
+    <script src="{% static 'user_static/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script>
+
+document.querySelectorAll('.check-availability').forEach(button => {
+			button.addEventListener('click', function () {
+				console.log("function");
+				const hallId = this.getAttribute('data-hall-id');
+				console.log(hallId);
+				fetch(`/fetch_bookings/${hallId}/`)
+					.then(response => response.json())
+					.then(data => {
+						console.log(data);
+
+						// Store bookings, inoperable dates, and availability in local storage before redirect
+						localStorage.setItem('bookings', JSON.stringify(data.bookings));
+						localStorage.setItem('inoperable', JSON.stringify(data.inoperable));
+						localStorage.setItem('availability', JSON.stringify(data.availability));
+
+						// Redirect to the calendar.html with the hall ID
+						window.location.href = "/user_calendar/" + hallId;
+					})
+					.catch(error => console.error('Error fetching bookings:', error));
+			});
+		});
+
+    </script>
+    <script>
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = src;
+            lightbox.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+    </script>
+</body>
+
+</html>

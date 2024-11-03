@@ -1,0 +1,17 @@
+   <div class="row mb-3">
+                        <div class="col-sm-8 mb-3">
+                          <label for="course" class="label">Course Name</label>  
+                          <select id="course" name="course" class="form-control">
+                           
+                            <option value="" selected disabled hidden>{{current_course_name}}</option>
+                          
+                            {% for i in course %}
+                            <option value="{{ i.id }}" {% if member.course == i.course %}selected{% endif %}>{{ i.course}}</option>
+                            {% endfor %}
+                          </select>  
+                        </div>
+                    </div>
+
+
+
+value="{{ updateinoperability.start|date:'Y-m-d'|default:'' }}"

@@ -1,0 +1,907 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'user_static/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/css/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/fonts/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/fonts/flaticon/font/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/css/daterangepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/css/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'user_static/css/style.css' %}">
+
+
+    <title>Booking</title>
+</head>
+<style>
+    #regForm {
+        background-color: #ffffff;
+        margin: 100px auto;
+        padding: 40px;
+        width: 70%;
+        min-width: 300px;
+    }
+
+    /* Style the input fields */
+    input[type="text"],
+    input[type=date],
+    select {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+    }
+
+    /* Mark input boxes that gets an error on validation: */
+    input.invalid {
+        background-color: #ffdddd;
+    }
+
+    /* Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+    /* Mark the active step: */
+    .step.active {
+        opacity: 1;
+    }
+
+    /* Mark the steps that are finished and valid: */
+    .step.finish {
+        background-color: #04AA6D;
+    }
+
+    /* The Modal (background) */
+
+
+    /* Close Button (x) */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Close button at the bottom */
+    .close-btn {
+        display: block;
+        margin: 20px auto 0 auto;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    .close-btn:hover {
+        background-color: #45a049;
+    }
+
+    /* Style the text inside modal */
+    .terms-text {
+        text-align: left;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    /* Disable Submit Button Initially */
+    #submitBtn {
+        background-color: #cccccc;
+        color: #666666;
+        cursor: not-allowed;
+    }
+
+    /* Enable Submit Button When Checkbox is Checked */
+    input[type="checkbox"]:checked~#submitBtn {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* Common button styling */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Black background with transparency */
+        overflow: auto;
+        /* Enable scrolling if the content exceeds the viewport */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        /* Adjust width for better responsiveness */
+        max-width: 600px;
+        /* Set a maximum width */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        /* Add shadow */
+        font-family: 'Arial', sans-serif;
+        /* Set font */
+        color: #333;
+        /* Text color */
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        /* Center the modal vertically */
+        border-radius: 8px;
+        /* Rounded corners */
+    }
+
+    /* Scrollable Modal Content */
+    .modal-content {
+        max-height: 80vh;
+        /* Maximum height of modal content */
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        padding-bottom: 40px;
+        /* Space for buttons */
+    }
+
+    /* Ensure buttons are visible */
+    button {
+        margin-top: 10px;
+        /* Spacing between buttons */
+        width: 100%;
+        /* Full width buttons */
+    }
+
+    /* Optional: Style for common-btn */
+    .common-btn {
+        padding: 10px;
+        background-color: #1249c0;
+        /* Button color */
+        color: white;
+        /* Text color */
+        border: none;
+        /* No border */
+        border-radius: 5px;
+        /* Rounded corners */
+        cursor: pointer;
+        /* Pointer cursor */
+        font-size: 16px;
+        /* Font size */
+        transition: background-color 0.3s;
+        /* Transition for hover effect */
+    }
+
+    .common-btn:hover {
+        background-color: #0056b3;
+        /* Darker shade on hover */
+    }
+</style>
+
+<body>
+
+
+    <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close">
+                <span class="icofont-close js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <nav class="site-nav">
+        <div class="container">
+            <div class="site-navigation">
+                <a href="{% url 'index' %}" class="logo m-0">Rotary Club<span class="text-primary">.</span></a>
+
+                <ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+
+                <a href="#"
+                    class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
+                    data-toggle="collapse" data-target="#main-navbar">
+                    <span></span>
+                </a>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="hero">
+        <div class="container">
+            <div class="container mt-5">
+                <h2 class="text-center">Add Event</h2>
+                <form id="regForm" method="post" action="{% url 'book_hall' hall_id %}">
+                    {% csrf_token %}
+                    <div class="form-group" id="step1">
+                        <h4>Email Verification: </h4> <br>
+                        <label for="email">Email:</label>
+                        <input type="text" class="form-control" id="email" name="email" required
+                            placeholder="Enter your email id"> <br>
+                        <button type="button" id="sendOTPBtn" class="btn btn-warning">Get OTP</button>
+                        <br><br>
+
+                        <label for="otp">OTP:</label>
+                        <input type="text" class="form-control" id="otp" name="otp"
+                            placeholder="Enter the OTP received on your email id" required><br>
+                        <button type="button" id="verifyOTPBtn" class="btn btn-warning">Verify OTP</button>
+                        <!-- <p id="message"></p> -->
+                        <br />
+                    </div>
+                    <div class="form-group" id="step2" style="display: none">
+                        <h4>Contact Details: </h4> <br>
+                        <label for=" organizer">Organizer Name :</label>
+                        <input type="text" class="form-control" id="user_contact_name" name="name"
+                            placeholder="Enter event organizer" required>
+                        <label for="email">Email :</label>
+                        <input type="text" class="form-control" id="emailStep2" name="emailStep2" required disabled>
+                        <label for="contact">Contact Number:</label>
+                        <input type="text" class="form-control" id="user_contact_phone" name="number"
+                            placeholder="Enter contact number" required>
+
+                        <label for="user_contact_address">Address</label>
+                        <textarea class="form-control" id="event_address" name="address" required rows="3"></textarea>
+                        <br />
+                    </div>
+                    <div class="form-group" id="step3" style="display: none">
+                        <h4>Program Details : </h4> <br>
+                        <label for="hall">Hall:</label>
+                        <input type="text" class="form-control" id="hall" name="hall_name" value="{{ hall_name }}"
+                            readonly>
+                        <label for="event_type">Event Type</label>
+                        <select class="form-control" id="event_type" name="event_type" required>
+                            <option value="marriage">Marriage</option>
+                            <option value="meeting">Meeting</option>
+                            <option value="baptism">Baptism</option>
+                            <option value="others">Others</option>
+                        </select>
+                        <div id="other_event_type" style="display: none">
+                            <label for="specify">Specify Event Type:</label>
+                            <input type="text" id="specify" name="specify" required />
+                        </div>
+                        <label for="startDate">Date:</label>
+                        <input type="text" class="form-control" id="start_date" name="start_date"
+                            value="{{ selected_date }}" readonly>
+                        <label for="timeslot">Time slot:</label>
+                        <input type="text" class="form-control" id="timeslot" name="timeslot"
+                            value="{{ selected_timeslot }}" readonly>
+                        <button type="button" id="reopenFurtherQuestions" class="common-btn" style="display: none">Edit Further Questions</button>
+                        {% if ac_type == 'Both A/C and Non A/C' %}
+                        <label>Choose AC Type:</label>
+                        <div>
+                            <label>
+                                <input type="radio" name="selected_ac" value="A/C">
+                                AC
+                            </label>
+                            <label>
+                                <input type="radio" name="selected_ac" value="Non A/C">
+                                Non-AC
+                            </label>
+                        </div>
+                        {% elif ac_type == 'A/C' %}
+                        <input type="hidden" name="selected_ac" value="A/C">
+                        {% elif ac_type == 'Non A/C' %}
+                        <input type="hidden" name="selected_ac" value="Non A/C">
+                        {% endif %}
+                        <label for="event_description">Event Description:</label>
+                        <textarea class="form-control" id="event_description" name="event_description" rows="3"
+                            required></textarea>
+                        <button class="btn btn-info" type="button" id="openModalBtn"> Read Terms & Conditions</button>
+
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-block" id="prevBtn" style="display: none">
+                        Previous
+                    </button>
+                    <button type="button" class="btn btn-success btn-block" id="nextBtn" style="display: none">
+                        Next
+                    </button>
+
+                    <button type="submit" class="btn btn-primary btn-block" style="display: none" id="submitBookingBtn">
+                        Book Hall
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-footer">
+        <div class="inner first">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="widget">
+                            <h3 class="heading">About Tour</h3>
+                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+                                there live the blind texts.</p>
+                        </div>
+                        <div class="widget">
+                            <ul class="list-unstyled social">
+                                <li><a href="#"><span class="icon-twitter"></span></a></li>
+                                <li><a href="#"><span class="icon-instagram"></span></a></li>
+                                <li><a href="#"><span class="icon-facebook"></span></a></li>
+                                <li><a href="#"><span class="icon-linkedin"></span></a></li>
+                                <li><a href="#"><span class="icon-dribbble"></span></a></li>
+                                <li><a href="#"><span class="icon-pinterest"></span></a></li>
+                                <li><a href="#"><span class="icon-apple"></span></a></li>
+                                <li><a href="#"><span class="icon-google"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-2 pl-lg-5">
+                        <div class="widget">
+                            <h3 class="heading">Pages</h3>
+                            <ul class="links list-unstyled">
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <div class="widget">
+                            <h3 class="heading">Resources</h3>
+                            <ul class="links list-unstyled">
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="widget">
+                            <h3 class="heading">Contact</h3>
+                            <ul class="list-unstyled quick-info links">
+                                <li class="email"><a href="#">mail@example.com</a></li>
+                                <li class="phone"><a href="#">+1 222 212 3819</a></li>
+                                <li class="address"><a href="#">43 Raymouth Rd. Baltemoer, London 3910</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="inner dark">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-8 mb-3 mb-md-0 mx-auto">
+                        <p>Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash;
+                            Designed with love by <a href="https://untree.co" class="link-highlight">Untree.co</a>
+                            <!-- License information: https://untree.co/license/ -->Distributed By <a
+                                href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div id="overlayer">
+        <div class="loader">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div> -->
+
+    <div id="termsModal" class="modal" style="display:none;">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="terms-text">
+                <h3>Terms and Conditions</h3>
+                <p>
+                    By using our hall booking system, you agree to the following terms and conditions.
+                    Please make sure you read them carefully before proceeding with your booking.
+                </p>
+                <p>{{ terms }}</p> <!-- Display the terms fetched from the database -->
+                <p>We reserve the right to modify these terms at any time without notice.</p>
+            </div>
+
+            <label>
+                I accept the Terms and Conditions
+                <input type="checkbox" id="acceptTnC">
+            </label>
+
+            <!-- Close button at the bottom -->
+            <button class="close-btn" id="closeTermsModalBtn">Close</button>
+        </div>
+    </div>
+
+
+
+    <!-- Existing Modal Code -->
+    <div id="furtherQuestionsModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>Further Questions</h3>
+            <form id="furtherQuestionsForm">
+                {% if is_evening_available %}
+                <p> Q. Do you need the evening the day before also?</p>
+                <label>
+                    <input class="form-control" type="radio" name="eveningBefore" value="yes"> Yes
+                </label>
+                <label>
+                    <input type="radio" class="form-control" name="eveningBefore" value="no"> No
+                </label><br>
+                {% else %}
+                
+                <input type="hidden" name="eveningBefore" value="no"> <!-- Default to 'no' if not available -->
+                {% endif %}
+
+                <p> Q. Do you need any other features?</p>
+                {% for feature in hall_features %}
+                <label for="{{ feature.id }}">{{ feature.featurename }}</label>
+                <input class="form-control" type="checkbox" id="{{ feature.id }}" name="features"
+                    value="{{ feature.id }}">
+                {% endfor %}
+
+                <button class="common-btn submit-btn" type="submit">Submit</button>
+                <button type="button" class="common-btn close-btn btn-warning" id="closeFurtherQuestions">Close</button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script src="{% static 'user_static/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'user_static/js/popper.min.js' %}"></script>
+    <script src="{% static 'user_static/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'user_static/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'user_static/s/jquery.animateNumber.min.js' %}"></script>
+    <script src="{% static 'user_static/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'user_static/js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'user_static/js/aos.js' %}"></script>
+    <script src="{% static 'user_static/js/moment.min.js' %}"></script>
+    <script src="{% static 'user_static/js/daterangepicker.js' %}"></script>
+    <script src="{% static 'user_static/js/typed.js' %}"></script>
+
+
+
+    <script>
+
+        document.getElementById("email").addEventListener("input", validateEmail);
+
+        function validateEmail() {
+            const emailField = document.getElementById("email");
+            const emailValue = emailField.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(emailValue)) {
+                emailField.setCustomValidity("Please enter a valid email address.");
+                emailField.reportValidity();
+                return false;
+            } else {
+                emailField.setCustomValidity(""); // Clear the error
+                return true;
+            }
+        }
+
+
+    </script>
+
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const hallId = "{{ hall_id }}";
+            const isEveningAvailable = {{ is_evening_available | lower }}; // Pass the Django boolean to JS
+        document.getElementById("submitBookingBtn").addEventListener("click", function (event) {
+            event.preventDefault();
+
+            // Validate email and contact details
+            if (!validateEmail() || !validateContactDetails() || !validateBookingDetails()) {
+                return; // Prevent form submission if any validation fails
+            }
+
+            const acceptTnC = document.getElementById("acceptTnC").checked;
+            if (!acceptTnC) {
+                alert("Booking cannot be done before checking the Terms and Conditions.");
+                return;
+            }
+
+            var formData = new FormData(document.getElementById("regForm"));
+            const eveningBefore = document.querySelector('input[name="eveningBefore"]:checked');
+            if (eveningBefore) {
+                formData.append('eveningBefore', eveningBefore.value);
+            }
+
+            const features = Array.from(document.querySelectorAll('input[name="features"]:checked')).map(el => el.value);
+            features.forEach(feature => {
+                formData.append('features', feature);
+            });
+
+            fetch(`/book_hall/${hallId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+                body: formData,
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error(text); });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        alert("Hall booked successfully. Taking you to homepage...");
+                        setTimeout(() => {
+                            window.location.href = "{% url 'index' %}";
+                        }, 1000);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An error occurred while booking: " + error.message);
+                });
+        });
+
+        // Validation function for booking details
+        function validateBookingDetails() {
+            const eventType = document.getElementById("event_type").value;
+            const specifyField = document.getElementById("specify").value.trim();
+            const selectedAcType = document.querySelector('input[name="selected_ac"]:checked');
+            const eventDescription = document.getElementById("event_description").value.trim();
+            const selectedTimeslot = document.getElementById("timeslot").value; // Assuming 'Full Day' is a specific value
+
+            // Check if 'Others' is selected and 'Specify' field is empty
+            if (eventType === "others" && specifyField === "") {
+                alert("Please specify the event type.");
+                return false;
+            }
+
+            // Check if A/C type is 'Both A/C and Non A/C' and no selection is made
+            if ("{{ ac_type }}" === 'Both A/C and Non A/C' && !selectedAcType) {
+                alert("Please select an AC type.");
+                return false;
+            }
+
+            // Check if the event description is empty
+            if (eventDescription === "") {
+                alert("Please provide a description for the program.");
+                return false;
+            }
+
+            // Check eveningBefore selection if full day and evening is available
+            if (selectedTimeslot === "Full Day" && isEveningAvailable) {
+                const eveningBeforeSelected = document.querySelector('input[name="eveningBefore"]:checked');
+                if (!eveningBeforeSelected) {
+                    alert("Please select an option for the evening before.");
+                    return false;
+                }
+            }
+
+            return true; // All validations passed
+        }
+    });
+    </script>
+
+
+
+
+
+
+    <script>
+        let currentStep = 1;
+
+        document.getElementById("nextBtn").addEventListener("click", function () {
+            console.log("step");
+            if (currentStep === 1) {
+                document.getElementById("step1").style.display = "none";
+                document.getElementById("step2").style.display = "block";
+                document.getElementById("prevBtn").style.display = "none";
+                document.getElementById("nextBtn").style.display = "block";
+            }
+            else if (currentStep === 2) {
+                // Move to Step 3
+                const name = document.getElementById("user_contact_name").value.trim();
+                const phone = document.getElementById("user_contact_phone").value.trim();
+                const address = document.getElementById("event_address").value.trim();
+
+                // Check for empty fields
+                if (name === "" || phone === "" || address === "") {
+                    alert("Please fill all contact details.");
+                    return; // Prevent moving to the next step
+                }
+
+                // Check if phone number is exactly 10 digits
+                if (!/^\d{10}$/.test(phone)) {
+                    alert("Please enter a valid 10-digit contact number.");
+                    return; // Prevent moving to the next step
+                }
+
+                document.getElementById("step2").style.display = "none";
+                document.getElementById("step3").style.display = "block";
+                document.getElementById("prevBtn").style.display = "block";
+                document.getElementById("nextBtn").style.display = "none";
+                document.getElementById("submitBookingBtn").style.display = "block";
+            }
+
+            currentStep++;
+
+            if (currentStep == 3) {
+                console.log("step3");
+
+                // Get modal element
+                var furtherQuestionsModal = document.getElementById("furtherQuestionsModal");
+
+
+                // Function to check the selected timeslot
+                var timeslot = document.getElementById("timeslot").value;
+                var reopen = document.getElementById('reopenFurtherQuestions');
+                if (timeslot === "Full Day") {
+
+                    console.log("Full Day");
+                    
+                    furtherQuestionsModal.style.display = "block"; // Show modal if "full" is selected
+                    {% if not is_evening_available %}
+                        alert("The evening before is not available to book.");
+                    {% endif %}
+                    reopen.style.display = 'block'; // Show modal again
+                };
+
+                document.getElementById('reopenFurtherQuestions').addEventListener('click', function () {
+                    furtherQuestionsModal.style.display = 'block'; // Show modal again
+                });
+                
+                // Get the close button for Further Questions Modal
+                var closeFurtherQuestionsButton = document.getElementById("closeFurtherQuestions");
+
+                // When the user clicks the Close button, close the modal
+                closeFurtherQuestionsButton.onclick = function () {
+                    furtherQuestionsModal.style.display = "none"; // Hide the modal when close button is clicked
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == furtherQuestionsModal) {
+                        furtherQuestionsModal.style.display = "none"; // Hide the modal if clicked outside
+                    }
+                }
+
+                document.getElementById('furtherQuestionsForm').addEventListener('submit', function (e) {
+                    e.preventDefault(); // Prevent the default form submission
+
+                    const eveningBefore = document.querySelector('input[name="eveningBefore"]:checked');
+                    const features = Array.from(document.querySelectorAll('input[name="features"]:checked')).map(el => el.value);
+
+                    const eveningBeforeValue = eveningBefore ? eveningBefore.value : null;
+
+                    // Store these values (you can use AJAX to send this data to your server or save it in a variable)
+                    console.log('Evening Before:', eveningBeforeValue);
+                    console.log('Features:', features);
+
+                    // Optionally close the modal here
+                    document.getElementById('furtherQuestionsModal').style.display = 'none';
+                });
+            }
+        });
+
+        document.getElementById("prevBtn").addEventListener("click", function () {
+            if (currentStep === 2) {
+                // Move back to Step 1
+                document.getElementById("step2").style.display = "none";
+                document.getElementById("step1").style.display = "block";
+                document.getElementById("prevBtn").style.display = "none";
+                document.getElementById("nextBtn").style.display = "block";
+                document.getElementById("submitBookingBtn").style.display = "none";
+            } else if (currentStep === 3) {
+                // Move back to Step 2
+                document.getElementById("step3").style.display = "none";
+                document.getElementById("step2").style.display = "block";
+                document.getElementById("prevBtn").style.display = "block";
+                document.getElementById("nextBtn").style.display = "block";
+                document.getElementById("submitBookingBtn").style.display = "none";
+            }
+            currentStep--;
+        });
+
+        document.getElementById("event_type").addEventListener("change", function () {
+            if (this.value === "others") {
+                document.getElementById("other_event_type").style.display = "block";
+            } else {
+                document.getElementById("other_event_type").style.display = "none";
+            }
+        });
+    </script>
+
+
+    <script>
+        // Get modal elements
+        var termsModal = document.getElementById("termsModal");
+
+        // Open Terms and Conditions modal
+        document.getElementById("openModalBtn").onclick = function () {
+            termsModal.style.display = "block";
+        }
+
+        // Get the close button for Terms Modal
+        var closeTermsModalButton = document.getElementById("closeTermsModalBtn");
+
+        // When the user clicks the Close button, close the modal
+        closeTermsModalButton.onclick = function () {
+            termsModal.style.display = "none"; // Hide the modal when close button is clicked
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == termsModal) {
+                termsModal.style.display = "none"; // Hide the modal if clicked outside
+            }
+        }
+
+    </script>
+
+
+    <script>
+
+
+        document.getElementById("sendOTPBtn").addEventListener("click", function () {
+            var email = document.getElementById("email").value;
+            if (!validateEmail()) {
+                alert("Please enter a valid email address before requesting OTP.");
+                return; // Prevent the OTP from being sent if the email is invalid
+            }
+
+            fetch("{% url 'send_otp' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+                body: JSON.stringify({ email: email }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        document.getElementById("otp").disabled = false;
+                        document.getElementById("verifyOTPBtn").disabled = false;
+                        alert("OTP has been sent to your email.");
+                    } else {
+                        alert("Error sending OTP. Please try again.");
+                    }
+                });
+        });
+
+        document
+            .getElementById("verifyOTPBtn").addEventListener("click", function () {
+                var otp = document.getElementById("otp").value;
+                fetch("{% url 'verify_otp' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    },
+                    body: JSON.stringify({ otp: otp }),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        if (data.success) {
+                            alert("OTP verified successfully.");
+                            document.getElementById("step1").style.display = "none";
+                            document.getElementById("step2").style.display = "block";
+                            document.getElementById("prevBtn").style.display = "none";
+                            document.getElementById("nextBtn").style.display = "block"; // Optionally keep it hidden until step 2 inputs are filled
+                            document.getElementById("emailStep2").value = document.getElementById("email").value;
+                            currentStep = 2;
+                        } else {
+                            alert("Invalid OTP. Please try again.");
+                        }
+                    });
+            });
+
+
+        function validateEmail() {
+            console.log("email checking");
+            const emailField = document.getElementById("email");
+            const emailValue = emailField.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(emailValue)) {
+                emailField.setCustomValidity("Please enter a valid email address.");
+                emailField.reportValidity();
+                return false;
+            } else {
+                emailField.setCustomValidity(""); // Clear the error
+                return true;
+            }
+            console.log("email set");
+        }
+
+        function validateContactDetails() {
+            console.log("contact checking");
+            const nameField = document.getElementById("user_contact_name");
+            const phoneField = document.getElementById("user_contact_phone");
+            const addressField = document.getElementById("event_address");
+
+            const name = nameField.value.trim();
+            console.log(name);
+            const phone = phoneField.value.trim();
+            console.log(phone);
+            const address = addressField.value.trim();
+            console.log(address);
+
+            // Simple phone number validation (10 digits)
+            const phoneRegex = /^[0-9]{10}$/;
+
+            if (name === "") {
+                alert("Please enter your name.");
+                return false;
+            }
+            if (!phoneRegex.test(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+            if (address === "") {
+                alert("Please enter your address.");
+                return false;
+            }
+            console.log("contact set");
+            return true;
+        }
+
+    </script>
+
+
+</body>
+
+</html>
